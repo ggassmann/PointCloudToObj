@@ -1,0 +1,24 @@
+<!DOCTYPE FilterScript>
+<FilterScript>
+ <filter name="Smooths normals on a point sets">
+  <Param type="RichInt" tooltip="The number of neighbors used to smooth normals." value="100" name="K" description="Number of neigbors"/>
+  <Param type="RichBool" tooltip="If selected, the neighbour normals are waighted according to their distance" value="false" name="useDist" description="Weight using neighbour distance"/>
+ </filter>
+ <filter name="Poisson-disk Sampling">
+  <Param type="RichInt" tooltip="The desired number of samples. The ray of the disk is calculated according to the sampling density." value="10000" name="SampleNum" description="Number of samples"/>
+  <Param type="RichAbsPerc" tooltip="If not zero this parameter override the previous parameter to allow exact radius specification" value="0" name="Radius" description="Explicit Radius" min="0" max="26.9266"/>
+  <Param type="RichInt" tooltip="The over-sampling rate that is used to generate the intial Montecarlo samples (e.g. if this parameter is &lt;i>K&lt;/i> means that&lt;i>K&lt;/i> x &lt;i>poisson sample&lt;/i> points will be used). The generated Poisson-disk samples are a subset of these initial Montecarlo samples. Larger this number slows the process but make it a bit more accurate." value="20" name="MontecarloRate" description="MonterCarlo OverSampling"/>
+  <Param type="RichBool" tooltip="If true Poisson Disc distances are computed using an approximate geodesic distance, e.g. an euclidean distance weighted by a function of the difference between the normals of the two points." value="false" name="ApproximateGeodesicDistance" description="Approximate Geodesic Distance"/>
+  <Param type="RichBool" tooltip="If true the original vertices of the base mesh are used as base set of points. In this case the SampleNum should be obviously much smaller than the original vertex number.&lt;br>Note that this option is very useful in the case you want to subsample a dense point cloud." value="true" name="Subsample" description="Base Mesh Subsampling"/>
+  <Param type="RichBool" tooltip="If true the vertices of the below mesh are used as starting vertices, and they will utterly refined by adding more and more points until possible. " value="false" name="RefineFlag" description="Refine Existing Samples"/>
+  <Param type="RichMesh" tooltip="Used only if the above option is checked. " value="0" name="RefineMesh" description="Samples to be refined"/>
+  <Param type="RichBool" tooltip="If true it will use an heuristic for choosing the samples that at a small cost can improve the maximality of the generated sampling. It can slow a bit the process. " value="true" name="BestSampleFlag" description="Best Sample Heuristic"/>
+  <Param type="RichInt" tooltip="Used only if the Best Sample Flag is true. It control the number of attempt that it makes to get the best sample. It is reasonable that it is smaller than the Montecarlo oversampling factor." value="10" name="BestSamplePool" description="Best Sample Pool Size"/>
+ </filter>
+ <filter name="Surface Reconstruction: Ball Pivoting">
+  <Param type="RichAbsPerc" tooltip="The radius of the ball pivoting (rolling) over the set of points. Gaps that are larger than the ball radius will not be filled; similarly the small pits that are smaller than the ball radius will be filled." value="0" name="BallRadius" description="Pivoting Ball radius (0 autoguess)" min="0" max="26.9042"/>
+  <Param type="RichFloat" tooltip="To avoid the creation of too small triangles, if a vertex is found too close to a previous one, it is clustered/merged with it." value="20" name="Clustering" description="Clustering radius (% of ball radius)"/>
+  <Param type="RichFloat" tooltip="If we encounter a crease angle that is too large we should stop the ball rolling" value="90" name="CreaseThr" description="Angle Threshold (degrees)"/>
+  <Param type="RichBool" tooltip="if true all the initial faces of the mesh are deleted and the whole surface is rebuilt from scratch, other wise the current faces are used as a starting point. Useful if you run multiple times the algorithm with an incrasing ball radius." value="false" name="DeleteFaces" description="Delete intial set of faces"/>
+ </filter>
+</FilterScript>

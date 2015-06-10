@@ -1,0 +1,8 @@
+*.jrs
+*.log
+*.ide
+*.suo
+*.exe
+*.chk
+bin/
+obj/
